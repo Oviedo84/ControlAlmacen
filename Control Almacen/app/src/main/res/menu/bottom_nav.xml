@@ -10,7 +10,8 @@
         android:title=""/>
     <item android:id="@+id/miFilter"
         android:title="Filter"
-        android:icon="@drawable/ic_filter"/>
+        android:icon="@drawable/ic_filter"
+        app:actionViewClass="android.widget.ImageButton" />
     <item android:id="@+id/miSearch"
         android:title="Search"
         android:icon="@drawable/ic_search"/>

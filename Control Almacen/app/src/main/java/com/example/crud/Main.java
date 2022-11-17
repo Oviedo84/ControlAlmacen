@@ -2,23 +2,31 @@ package com.example.crud;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.ClipData;
 import android.os.Bundle;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Main extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener{
     FloatingActionButton floatingActionButton;
     BottomNavigationView bottomnavigationview;
     NavigationView navigationView;
+    ImageButton FilterButton;
     int numActivity = 1;
     DrawerLayout mDrawerLayout;
 
@@ -33,6 +41,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         bottomnavigationview.getMenu().getItem(1).setEnabled(false);
         bottomnavigationview.getMenu().getItem(2).setEnabled(false);
         bottomnavigationview.setOnItemSelectedListener(mOnItemSelectedListener);
+        FilterButton = (ImageButton) bottomnavigationview.getMenu().findItem(R.id.miFilter).getActionView();
 
         // Navigation Drawer
         mDrawerLayout = findViewById(R.id.drawerlayout);
@@ -109,6 +118,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     return true;
                 case R.id.miFilter:
                     Toast.makeText(Main.this, "Filter Seleccionado", Toast.LENGTH_SHORT).show();
+                    showPopup(item.getActionView());
                     return true;
             }
             return false;
@@ -152,5 +162,32 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
     }
 
-
+    public void showPopup(View view){
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.filter_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.opt1:
+                        System.out.println("Opt1 Seleccionado");
+                        Toast.makeText(Main.this, "opt1", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.opt2:
+                        Toast.makeText(Main.this, "opt2", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.opt3:
+                        Toast.makeText(Main.this, "opt3", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.opt4:
+                        Toast.makeText(Main.this, "opt4", Toast.LENGTH_SHORT).show();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+        popupMenu.show();
+    }
 }
