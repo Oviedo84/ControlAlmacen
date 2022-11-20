@@ -62,5 +62,33 @@ INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo)
 	VALUES ('Perfume 03', '1543', 'Esencia ');
 INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
 	VALUES ('Perfume 04', '7132', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 05', '643', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 06', '1436', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 07', '481', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 08', '1348', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 09', '2029', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 10', '1886', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 11', '1236', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 12', '219', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 13', '1439', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 14', '1156', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 15', '505', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 16', '2026', 'Esencia ');
+INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
+	VALUES ('Perfume 17', '101', 'Esencia ');
+INSERT INTO usuarios(usu_nombre, usu_ape_pat, usu_ape_mat, usu_puesto) 
+	VALUES ('Gerente01', 'Gonzalez', 'Perez', 'Gerente');
 INSERT INTO usuarios(usu_nombre, usu_ape_pat, usu_ape_mat, usu_puesto) 
 	VALUES ('Gerente01', 'Gonzalez', 'Perez', 'Gerente');

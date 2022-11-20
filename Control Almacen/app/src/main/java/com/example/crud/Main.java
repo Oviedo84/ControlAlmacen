@@ -163,6 +163,8 @@ public class Main extends AppCompatActivity implements
     }
 
     public void showPopup(View view){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         PopupMenu popupMenu = new PopupMenu(this, view, Gravity.NO_GRAVITY, com.google.android.material.R.attr.actionOverflowMenuStyle, 0);
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.filter_menu, popupMenu.getMenu());
@@ -171,8 +173,8 @@ public class Main extends AppCompatActivity implements
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.opt1:
-                        System.out.println("Opt1 Seleccionado");
-                        Toast.makeText(Main.this, "opt1", Toast.LENGTH_SHORT).show();
+                        fragmentTransaction.replace(R.id.load_fragment, new ListProductsByQuantity()).commit();
+                        mDrawerLayout.close();
                         return true;
                     case R.id.opt2:
                         Toast.makeText(Main.this, "opt2", Toast.LENGTH_SHORT).show();

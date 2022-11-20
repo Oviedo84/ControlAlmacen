@@ -76,6 +76,24 @@ app.get('/listProd', function(req, res){
     });
 });
 
+app.get('/listProdbyQuantity', function(req, res){
+    var sql = "SELECT * FROM productos ORDER BY prod_cantidad DESC";
+    db.query(sql, function(error, result){
+        if (error){
+            res.write(JSON.stringify({
+                error: true,
+                error_object: error
+            }));
+            res.end();
+        }
+        else {
+            res.write(JSON.stringify(result));
+            res.end();
+        }
+    });
+});
+
+
 app.get('/cat', function(req, res){
     var sql = "SELECT * FROM categorias";
     db.query(sql, function(error, result){
