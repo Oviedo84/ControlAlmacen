@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.ClipData;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +27,7 @@ public class Main extends AppCompatActivity implements
     FloatingActionButton floatingActionButton;
     BottomNavigationView bottomnavigationview;
     NavigationView navigationView;
-    ImageButton FilterButton;
+    View anchorMenu;
     int numActivity = 1;
     DrawerLayout mDrawerLayout;
 
@@ -34,6 +35,7 @@ public class Main extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        anchorMenu = findViewById(R.id.anchorMenu);
 
         // Bottom Navigation View
         bottomnavigationview = findViewById(R.id.bottomNavigationView);
@@ -41,7 +43,6 @@ public class Main extends AppCompatActivity implements
         bottomnavigationview.getMenu().getItem(1).setEnabled(false);
         bottomnavigationview.getMenu().getItem(2).setEnabled(false);
         bottomnavigationview.setOnItemSelectedListener(mOnItemSelectedListener);
-        FilterButton = (ImageButton) bottomnavigationview.getMenu().findItem(R.id.miFilter).getActionView();
 
         // Navigation Drawer
         mDrawerLayout = findViewById(R.id.drawerlayout);
@@ -117,8 +118,7 @@ public class Main extends AppCompatActivity implements
                     Toast.makeText(Main.this, "Search Seleccionado", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.miFilter:
-                    Toast.makeText(Main.this, "Filter Seleccionado", Toast.LENGTH_SHORT).show();
-                    showPopup(item.getActionView());
+                    showPopup(anchorMenu);
                     return true;
             }
             return false;
@@ -163,7 +163,7 @@ public class Main extends AppCompatActivity implements
     }
 
     public void showPopup(View view){
-        PopupMenu popupMenu = new PopupMenu(this, view);
+        PopupMenu popupMenu = new PopupMenu(this, view, Gravity.NO_GRAVITY, com.google.android.material.R.attr.actionOverflowMenuStyle, 0);
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.filter_menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

@@ -68,4 +68,13 @@
         app:headerLayout="@layout/drawer_header"
         android:fontFamily="@font/work_sans"/>
 
+    <View
+        android:id="@+id/anchorMenu"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_marginTop="485dp"
+        android:layout_marginStart="250dp"
+        android:layout_marginRight="0dp"
+        />
+
 </androidx.drawerlayout.widget.DrawerLayout>
