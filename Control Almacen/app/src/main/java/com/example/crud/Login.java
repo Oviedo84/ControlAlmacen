@@ -26,6 +26,7 @@ import java.util.Map;
 public class Login extends AppCompatActivity {
     private Button button;
     private EditText Username;
+    private EditText Password;
     private int privilege = 0;
     private ip object = new ip();
     private String PCip = object.getLocalip();
@@ -43,11 +44,13 @@ public class Login extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
         button = findViewById(R.id.login_button);
         Username = findViewById(R.id.Username);
+        Password = findViewById(R.id.Password);
         ProgressDialog progressDialog = new ProgressDialog(this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = Username.getText().toString();
+                String password = Password.getText().toString();
                 StringRequest stringRequest = new StringRequest(
                         Request.Method.POST,
                         users,
@@ -74,6 +77,7 @@ public class Login extends AppCompatActivity {
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> params = new HashMap<String, String>();
                         params.put("username", username);
+                        params.put("password", password);
                         return params;
                     }
                 };

@@ -19,6 +19,7 @@ CREATE TABLE usuarios(
     usu_ape_pat VARCHAR(30) NOT NULL,
     usu_ape_mat VARCHAR(30),
     usu_puesto ENUM('Almacenista','Gerente','Desempleado') NOT NULL,
+	usu_password VARCHAR (30) NOT NULL,
     INDEX(usu_nombre,usu_ape_pat),
     PRIMARY KEY (usu_id)
 );
@@ -42,15 +43,6 @@ CREATE TABLE registros(
     FOREIGN KEY (reg_prod_id)
 		REFERENCES productos (prod_id)
         ON DELETE NO ACTION
-);
-
-CREATE TABLE privilegios(
-	priv_nivel TINYINT NOT NULL,
-    priv_usu_id INT NOT NULL,
-    CONSTRAINT fk_priv_usu_id
-    FOREIGN KEY (priv_usu_id)
-		REFERENCES usuarios(usu_id)
-		ON UPDATE CASCADE
 );
 
 #----------------------INSERT-----------------------------------------------	
@@ -88,7 +80,6 @@ INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo)
 	VALUES ('Perfume 16', '2026', 'Esencia ');
 INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo) 
 	VALUES ('Perfume 17', '101', 'Esencia ');
-INSERT INTO usuarios(usu_nombre, usu_ape_pat, usu_ape_mat, usu_puesto) 
-	VALUES ('Gerente01', 'Gonzalez', 'Perez', 'Gerente');
-INSERT INTO usuarios(usu_nombre, usu_ape_pat, usu_ape_mat, usu_puesto) 
-	VALUES ('Gerente01', 'Gonzalez', 'Perez', 'Gerente');
+INSERT INTO usuarios(usu_nombre, usu_ape_pat, usu_ape_mat, usu_password, usu_puesto) 
+	VALUES ('Gerente01', 'Gonzalez', 'Perez', 'password', 'Gerente');
+INSERT INTO privilegios()

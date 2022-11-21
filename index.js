@@ -33,8 +33,9 @@ app.use(express.json());
 
 app.post('/auth', function(req, res) {
     var username = req.body.username;
-    if(username){
-        db.query('SELECT * FROM usuarios WHERE usu_nombre = ?', [username], function(error, result) {
+    var password = req.body.password;
+    if(username && password){
+        db.query('SELECT usu_nombre, usu_password FROM usuarios WHERE usu_nombre = ? AND usu_password = ?', [username, password], function(error, result, fields) {
             if (error){
                 res.write(JSON.stringify({
                     error: true,
@@ -48,7 +49,7 @@ app.post('/auth', function(req, res) {
                 res.send('1');
             }
             else {
-                res.send('Incorrect Username');
+                res.send('Incorrect Username and/or password');
             }
             res.end();
         });
