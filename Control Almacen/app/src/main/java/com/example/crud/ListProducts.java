@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -41,12 +42,15 @@ public class ListProducts extends Fragment{
     GetProducts getProducts;
     List<GetProducts> mProducto;
     AdapterProducts adapterProducts;
+    SearchView searchView;
+    View v;
     AdapterProducts.RecyclerViewClickListener listener;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_products, container, false);
+        v = view;
         return view;
     }
 
@@ -57,6 +61,20 @@ public class ListProducts extends Fragment{
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mProducto = new ArrayList<>();
+        searchView = view.findViewById(R.id.searchViewListProducts);
+        searchView.setVisibility(view.GONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return false;
+            }
+        });
         requestQueue = Volley.newRequestQueue(getContext());
         this.getProducts();
         this.deleteProducts();
@@ -158,5 +176,26 @@ public class ListProducts extends Fragment{
         }
         );
         requestQueue.add(stringRequest);
+    }
+    
+    public void ShowSearchView(){
+        searchView.setVisibility(v.VISIBLE);
+    }
+    
+    public void filterList(String text){
+        List<GetProducts> aux = new ArrayList<>();
+        for(GetProducts x : mProducto){
+            if(x.getNombre().toLowerCase().contains(text.toLowerCase())){
+                aux.add(x);
+            }
+        }
+        if(aux.isEmpty()){
+            Toast.makeText(getContext(), "No hay coincidencias", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            adapterProducts.setFilteredProducts(aux);
+            recyclerView.setAdapter(adapterProducts);
+            adapterProducts.notifyDataSetChanged();
+        }
     }
 }

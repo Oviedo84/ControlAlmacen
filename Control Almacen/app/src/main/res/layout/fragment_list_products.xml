@@ -3,10 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ListProducts"
     android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewListProducts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_search"
+        app:queryHint="Type here to search"
+        />
 
     <TextView
         android:id="@+id/topText"
@@ -55,7 +63,7 @@
             android:layout_toRightOf="@id/prodDescripcion"
             android:fontFamily="@font/work_sans"
             android:gravity="center"
-            android:text="Precio"
+            android:text="Cantidad"
             android:textSize="18sp" />
 
     </RelativeLayout>

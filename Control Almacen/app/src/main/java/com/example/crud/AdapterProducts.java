@@ -18,6 +18,9 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.ViewHo
     List<GetProducts> productos;
     LayoutInflater inflater;
 
+    public void setFilteredProducts(List<GetProducts> productos){
+        this.productos = productos;
+    }
 
     public AdapterProducts(List<GetProducts> productos, Context mContext, RecyclerViewClickListener listener) {
         this.productos = productos;

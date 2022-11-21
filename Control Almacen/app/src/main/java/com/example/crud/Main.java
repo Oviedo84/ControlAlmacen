@@ -3,6 +3,7 @@ package com.example.crud;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuView;
+import androidx.appcompat.widget.SearchView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -22,8 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-public class Main extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener{
+public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     FloatingActionButton floatingActionButton;
     BottomNavigationView bottomnavigationview;
     NavigationView navigationView;
@@ -54,7 +54,7 @@ public class Main extends AppCompatActivity implements
         // Fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.load_fragment, new ListProducts()).commit();
+        fragmentTransaction.add(R.id.load_fragment, new ListProducts(), "ListProducts").commit();
 
         // Insert Product
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +115,14 @@ public class Main extends AppCompatActivity implements
                     mDrawerLayout.open();
                     return true;
                 case R.id.miSearch:
-                    Toast.makeText(Main.this, "Search Seleccionado", Toast.LENGTH_SHORT).show();
+                    switch (numActivity){
+                        case 1:
+                            ListProducts fragment = (ListProducts) getSupportFragmentManager().findFragmentByTag("ListProducts");
+                            fragment.ShowSearchView();
+                            break;
+                        default:
+                            break;
+                    }
                     return true;
                 case R.id.miFilter:
                     showPopup(anchorMenu);
@@ -137,25 +144,25 @@ public class Main extends AppCompatActivity implements
         switch (item.getItemId()){
             case R.id.nav_productos:
                 numActivity = 1;
-                fragmentTransaction.replace(R.id.load_fragment, new ListProducts()).commit();
+                fragmentTransaction.replace(R.id.load_fragment, new ListProducts(), "ListProducts").commit();
                 mDrawerLayout.close();
                 floatingActionButton.show();
                 break;
             case R.id.nav_categoria:
                 numActivity = 2;
-                fragmentTransaction.replace(R.id.load_fragment, new ListCategories()).commit();
+                fragmentTransaction.replace(R.id.load_fragment, new ListCategories(), "ListCategories").commit();
                 mDrawerLayout.close();
                 floatingActionButton.show();
                 break;
             case R.id.nav_compras:
                 numActivity = 3;
-                fragmentTransaction.replace(R.id.load_fragment, new ListCompras()).commit();
+                fragmentTransaction.replace(R.id.load_fragment, new ListCompras(), "ListCompras").commit();
                 mDrawerLayout.close();
                 floatingActionButton.show();
                 break;
             case R.id.nav_usuarios:
                 numActivity = 4;
-                fragmentTransaction.replace(R.id.load_fragment, new ListUsers()).commit();
+                fragmentTransaction.replace(R.id.load_fragment, new ListUsers(), "ListUsers").commit();
                 mDrawerLayout.close();
                 floatingActionButton.show();
                 break;
