@@ -47,19 +47,11 @@ public class EditProducts extends Fragment {
     private String EditProd;
     private ip object = new ip();
     private String PCip = object.getLocalip();
-    private String categorias = PCip + "/cat";
 
     private Button insertButton;
-    private EditText insertNombre, insertDescripcion, insertPventa, insertPcompra, insertFecha, insertCantidad;
+    private EditText insertNombre, insertDescripcion, insertCantidad;
     RequestQueue requestQueue;
-    EditText mDateFormat;
-    List<GetCategories> getCategoriesList;
-    String[] items = {"1", "0"};
-    AutoCompleteTextView insertActivo;
-    AutoCompleteTextView insertCategoria;
-    ArrayAdapter<String> adapterCategorias;
-    ArrayAdapter<String> adapterActivo;
-    String id, nombre, descripcion, pventa, pcompra, fecha, cantidad, activo, categoria;
+    String id, nombre, descripcion, cantidad;
 
     @Nullable
     @Override
@@ -68,14 +60,9 @@ public class EditProducts extends Fragment {
         Bundle bundle = this.getArguments();
         id = bundle.getString("id");
         nombre = bundle.getString("nombre");
-        descripcion = bundle.getString("descripcion");
-        pventa = bundle.getString("p_venta");
-        pcompra = bundle.getString("p_compra");
-        fecha = bundle.getString("fecha");
+        descripcion = bundle.getString("tipo");
         cantidad = bundle.getString("cantidad");
-        activo = bundle.getString("activo");
-        categoria = bundle.getString("categoria");
-        EditProd = "http://192.168.0.8:8080/editProd/" + id;
+        EditProd = PCip + "/editProd/" + id;
         return view;
     }
 
@@ -84,41 +71,25 @@ public class EditProducts extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         requestQueue = Volley.newRequestQueue(getContext());
 
-        // Calendario
-        mDateFormat = (EditText) view.findViewById(R.id.fechaFormat);
-        initCalendar();
-
         // Insertar Producto
         insertNombre = (EditText) view.findViewById(R.id.nombre);
         insertDescripcion = (EditText) view.findViewById(R.id.descripcion);
-        insertPventa = (EditText) view.findViewById(R.id.precio_venta);
-        insertPcompra = (EditText) view.findViewById(R.id.precio_compra);
-        insertFecha = (EditText) view.findViewById(R.id.fechaFormat);
         insertCantidad = (EditText) view.findViewById(R.id.cantidad);
-        insertActivo = (AutoCompleteTextView) view.findViewById(R.id.activo);
-        insertCategoria = (AutoCompleteTextView) view.findViewById(R.id.categoria);
 
         // Inicializar los campos
         insertNombre.setText(nombre, TextView.BufferType.EDITABLE);
         insertDescripcion.setText(descripcion, TextView.BufferType.EDITABLE);
-        insertPventa.setText(pventa, TextView.BufferType.EDITABLE);
-        insertPcompra.setText(pcompra, TextView.BufferType.EDITABLE);
         insertCantidad.setText(cantidad, TextView.BufferType.EDITABLE);
-        insertActivo.setText(activo, TextView.BufferType.EDITABLE);
-        insertCategoria.setText(categoria, TextView.BufferType.EDITABLE);
-
-        // Selection Categoria
-        CategorySelection();
-
-        // Selection Activo
-        ActiveSelection();
 
         insertButton = (Button) view.findViewById(R.id.insert_button);
         insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(edit()){
+                    Bundle bundleforFragment = new Bundle();
+                    bundleforFragment.putString("data", "1");
                     Fragment main = new ListProducts();
+                    main.setArguments(bundleforFragment);
                     FragmentManager fragmentManager = getParentFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.load_fragment, main);
@@ -133,68 +104,20 @@ public class EditProducts extends Fragment {
         });
     }
 
-    void initCalendar(){
-        // Inicializar el Calendario
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-        String formattedDate = format.format(calendar.getTime());
-        mDateFormat.setText(formattedDate);
-        // EditText no editable mediante teclado
-        mDateFormat.setFocusable(false);
-        mDateFormat.setClickable(true);
-
-        // Configuracion del datepicker de Material
-        MaterialDatePicker datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("Select Date")
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds()).build();
-        mDateFormat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePicker.show(getActivity().getSupportFragmentManager(), "Material_Date_Picker");
-                datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
-                    @Override
-                    public void onPositiveButtonClick(Long selection) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis(selection);
-                        calendar.add(Calendar.DAY_OF_YEAR, 1);
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-                        String formattedDate = format.format(calendar.getTime());
-                        mDateFormat.setText(formattedDate);
-                    }
-                });
-            }
-        });
-    }
-
     boolean edit(){
         String nombre = insertNombre.getText().toString().trim();
-        String Descripcion = insertDescripcion.getText().toString().trim();
-        String Pventa = insertPventa.getText().toString().trim();
-        String Pcompra = insertPcompra.getText().toString().trim();
-        String Fecha = insertFecha.getText().toString().trim();
-        String Cantidad = insertCantidad.getText().toString().trim();
-        String Activo = insertActivo.getText().toString().trim();
+        String tipo = insertDescripcion.getText().toString().trim();
+        String cantidad = insertCantidad.getText().toString().trim();
 
         ProgressDialog progressDialog = new ProgressDialog(getContext());
         if (nombre.isEmpty()) {
             insertNombre.setError("Complete el campo");
             return false;
-        } else if (Descripcion.isEmpty()) {
+        } else if (tipo.isEmpty()) {
             insertDescripcion.setError("Complete el campo");
             return false;
-        } else if (Pventa.isEmpty()) {
-            insertPventa.setError("Complete el campo");
-            return false;
-        } else if (Pcompra.isEmpty()) {
-            insertPcompra.setError("Complete el campo");
-            return false;
-        } else if (Fecha.isEmpty()) {
-            insertFecha.setError("Complete el campo");
-            return false;
-        } else if (Cantidad.isEmpty()) {
+        } else if (cantidad.isEmpty()) {
             insertCantidad.setError("Complete el campo");
-            return false;
-        } else if (Activo.isEmpty()) {
-            insertActivo.setError("Complete el campo");
             return false;
         } else {
             progressDialog.show();
@@ -210,7 +133,7 @@ public class EditProducts extends Fragment {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error){
-                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
             )
@@ -219,12 +142,8 @@ public class EditProducts extends Fragment {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String>params=new HashMap<String, String>();
                     params.put("nombre", nombre);
-                    params.put("descripcion", Descripcion);
-                    params.put("p_venta", Pventa);
-                    params.put("p_compra", Pcompra);
-                    params.put("fecha", Fecha);
-                    params.put("activo", Activo);
-                    params.put("cantidad", Cantidad);
+                    params.put("tipo", tipo);
+                    params.put("cantidad", cantidad );
                     return params;
                 }
             };
@@ -240,62 +159,5 @@ public class EditProducts extends Fragment {
         if (activity != null) {
             activity.hideFAB();
         }
-    }
-
-    private void getCategories(){
-        JsonArrayRequest arrayRequest = new JsonArrayRequest(
-                Request.Method.GET,
-                categorias,
-                null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        int size = response.length();
-                        for (int i = 0; i < size; i++) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.get(i).toString());
-                                String categoria_id = jsonObject.getString("categoria_id");
-                                String nombre = jsonObject.getString("nombre");
-                                String descripcion = jsonObject.getString("descripcion");
-                                getCategoriesList.add(new GetCategories(categoria_id, nombre, descripcion));
-                                adapterCategorias.add(nombre);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }
-        );
-        requestQueue.add(arrayRequest);
-    }
-
-    private void ActiveSelection(){
-        adapterActivo = new ArrayAdapter<String>(getContext(),R.layout.list_product_active, items);
-        insertActivo.setAdapter(adapterActivo);
-        insertActivo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-            }
-        });
-    }
-
-    private void CategorySelection(){
-        getCategoriesList = new ArrayList<>();
-        adapterCategorias = new ArrayAdapter<String>(getContext(),R.layout.list_product_active);
-        this.getCategories();
-        insertCategoria.setAdapter(adapterCategorias);
-        insertCategoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-            }
-        });
     }
 }

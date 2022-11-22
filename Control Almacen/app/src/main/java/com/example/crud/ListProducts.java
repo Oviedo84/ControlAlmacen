@@ -144,7 +144,7 @@ public class ListProducts extends Fragment{
                 Bundle bundle = new Bundle();
                 bundle.putString("id", aux.getProducto_id());
                 bundle.putString("nombre", aux.getNombre());
-                bundle.putString("descripcion", aux.getTipo());
+                bundle.putString("tipo", aux.getTipo());
                 bundle.putString("cantidad", aux.getCantidad());
                 Fragment main = new EditProducts();
                 main.setArguments(bundle);

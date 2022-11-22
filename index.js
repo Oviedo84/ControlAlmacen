@@ -191,15 +191,11 @@ app.delete('/deleteProduct/:id', function(req, res){
 app.put('/editProd/:id', function(req, res, next){
     var id = req.params.id;
     var nombre = req.body.nombre;
-    var descripcion = req.body.descripcion;
-    var p_venta = req.body.p_venta;
-    var p_compra = req.body.p_compra;
-    var fecha = req.body.fecha;
-    var activo = req.body.activo;
+    var tipo = req.body.tipo;
     var cantidad = req.body.cantidad;
     
-    var sql = `UPDATE productos SET nombre=?, descripcion=?, p_venta=?, p_compra=?, fecha=?, activo=?, cantidad=? WHERE producto_id = ?`;
-    db.query(sql, [nombre, descripcion, p_venta, p_compra, fecha, activo, cantidad, id],function(error, result){
+    var sql = `UPDATE productos SET prod_nombre=?, prod_tipo=?, prod_cantidad=? WHERE prod_id = ?`;
+    db.query(sql, [nombre, tipo, cantidad, id],function(error, result){
         if (error){
             res.write(JSON.stringify({
                 error: true,
