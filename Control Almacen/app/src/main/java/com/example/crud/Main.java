@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.SearchView;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -24,39 +25,46 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-    FloatingActionButton floatingActionButton;
-    BottomNavigationView bottomnavigationview;
-    NavigationView navigationView;
-    View anchorMenu;
-    int numActivity = 1;
-    DrawerLayout mDrawerLayout;
+    private FloatingActionButton floatingActionButton;
+    private BottomNavigationView bottomnavigationview;
+    private NavigationView navigationView;
+    private View anchorMenu;
+    private int privileges = 0;
+    private int numActivity = 1;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         anchorMenu = findViewById(R.id.anchorMenu);
-
+        //Bundle
+        Bundle bundle = getIntent().getExtras();
+        privileges = Integer.parseInt(bundle.getString("privilege"));
         // Bottom Navigation View
         bottomnavigationview = findViewById(R.id.bottomNavigationView);
         bottomnavigationview.setBackground(null);
         bottomnavigationview.getMenu().getItem(1).setEnabled(false);
         bottomnavigationview.getMenu().getItem(2).setEnabled(false);
         bottomnavigationview.setOnItemSelectedListener(mOnItemSelectedListener);
-
         // Navigation Drawer
         mDrawerLayout = findViewById(R.id.drawerlayout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        if(privileges == 2){
+            navigationView.getMenu().getItem(2).setVisible(false);
+        }
         //Floating Action Button
         floatingActionButton = findViewById(R.id.fab);
         // Fragments
+        Bundle bundleforFragment = new Bundle();
+        bundleforFragment.putString("data", "1");
+        Fragment listprod = new ListProducts();
+        listprod.setArguments(bundleforFragment);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.load_fragment, new ListProducts(), "ListProducts").commit();
-
-        // Insert Product
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.load_fragment, listprod, "ListProducts").commit();
+        // Floating Action Button
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,9 +77,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         getSupportFragmentManager().beginTransaction().replace(R.id.load_fragment, new InsertCategories()).addToBackStack(null).commit();
                         break;
                     case 3:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.load_fragment, new InsertCompra()).addToBackStack(null).commit();
-                        break;
-                    case 4:
                         getSupportFragmentManager().beginTransaction().replace(R.id.load_fragment, new InsertUsers()).addToBackStack(null).commit();
                         break;
                 }
@@ -148,20 +153,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 mDrawerLayout.close();
                 floatingActionButton.show();
                 break;
-            case R.id.nav_categoria:
+            case R.id.nav_registros:
                 numActivity = 2;
                 fragmentTransaction.replace(R.id.load_fragment, new ListCategories(), "ListCategories").commit();
                 mDrawerLayout.close();
                 floatingActionButton.show();
                 break;
-            case R.id.nav_compras:
-                numActivity = 3;
-                fragmentTransaction.replace(R.id.load_fragment, new ListCompras(), "ListCompras").commit();
-                mDrawerLayout.close();
-                floatingActionButton.show();
-                break;
             case R.id.nav_usuarios:
-                numActivity = 4;
+                numActivity = 3;
                 fragmentTransaction.replace(R.id.load_fragment, new ListUsers(), "ListUsers").commit();
                 mDrawerLayout.close();
                 floatingActionButton.show();
@@ -178,19 +177,19 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                String aux;
                 switch (item.getItemId()) {
                     case R.id.opt1:
-                        fragmentTransaction.replace(R.id.load_fragment, new ListProductsByQuantity()).commit();
-                        mDrawerLayout.close();
+                        aux = "2";
+                        SetDir(aux);
                         return true;
                     case R.id.opt2:
-                        Toast.makeText(Main.this, "opt2", Toast.LENGTH_SHORT).show();
+                        aux = "3";
+                        SetDir(aux);
                         return true;
                     case R.id.opt3:
-                        Toast.makeText(Main.this, "opt3", Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.opt4:
-                        Toast.makeText(Main.this, "opt4", Toast.LENGTH_SHORT).show();
+                        aux = "4";
+                        SetDir(aux);
                         return true;
                     default:
                         return false;
@@ -198,5 +197,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             }
         });
         popupMenu.show();
+    }
+
+    public void SetDir(String aux){
+        Bundle bundleforFragment = new Bundle();
+        bundleforFragment.putString("data", aux);
+        Fragment listprod = new ListProducts();
+        listprod.setArguments(bundleforFragment);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.load_fragment, listprod, "ListProducts").commit();
+        mDrawerLayout.close();
     }
 }

@@ -6,6 +6,4 @@
         android:title="Nombre (A-Z)"/>
     <item android:id="@+id/opt3"
         android:title="Nombre (Z-A)"/>
-    <item android:id="@+id/opt4"
-        android:title="Fecha"/>
 </menu>

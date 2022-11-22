@@ -34,9 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListProducts extends Fragment{
+    int i = 0;
     private ip object = new ip();
     private String PCip = object.getLocalip();
-    private String products = PCip + "/listProd";
+    private String products;
     RequestQueue requestQueue;
     RecyclerView recyclerView;
     GetProducts getProducts;
@@ -50,6 +51,8 @@ public class ListProducts extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_products, container, false);
+        Bundle bundle = this.getArguments();
+        i = Integer.parseInt(bundle.getString("data"));
         v = view;
         return view;
     }
@@ -57,7 +60,23 @@ public class ListProducts extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
-
+        // Set dir
+        switch (i){
+            case 1:
+                products = PCip + "/listProd";
+                break;
+            case 2:
+                products = PCip + "/listProdbyQuantity";
+                break;
+            case 3:
+                products = PCip + "/listProdbyNameAsc";
+                break;
+            case 4:
+                products = PCip + "/listProdbyNameDesc";
+                break;
+            default:
+                break;
+        }
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mProducto = new ArrayList<>();

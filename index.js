@@ -35,7 +35,7 @@ app.post('/auth', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
     if(username && password){
-        db.query('SELECT usu_nombre, usu_password FROM usuarios WHERE usu_nombre = ? AND usu_password = ?', [username, password], function(error, result, fields) {
+        db.query('SELECT usu_puesto FROM usuarios WHERE usu_nombre = ? AND usu_password = ?', [username, password], function(error, result, fields) {
             if (error){
                 res.write(JSON.stringify({
                     error: true,
@@ -46,7 +46,7 @@ app.post('/auth', function(req, res) {
             if (result.length > 0){
                 req.session.loggedin = true;
                 req.session.username = username;
-                res.send('1');
+                res.write(JSON.stringify(result));
             }
             else {
                 res.send('Incorrect Username and/or password');
@@ -55,7 +55,7 @@ app.post('/auth', function(req, res) {
         });
     }
     else {
-        res.send('Please enter the username');
+        res.send('Please enter the username and the password');
         res.end();
     }
 });
@@ -94,6 +94,39 @@ app.get('/listProdbyQuantity', function(req, res){
     });
 });
 
+app.get('/listProdbyNameDesc', function(req, res){
+    var sql = "SELECT * FROM productos ORDER BY prod_nombre DESC";
+    db.query(sql, function(error, result){
+        if (error){
+            res.write(JSON.stringify({
+                error: true,
+                error_object: error
+            }));
+            res.end();
+        }
+        else {
+            res.write(JSON.stringify(result));
+            res.end();
+        }
+    });
+});
+
+app.get('/listProdbyNameAsc', function(req, res){
+    var sql = "SELECT * FROM productos ORDER BY prod_nombre ASC";
+    db.query(sql, function(error, result){
+        if (error){
+            res.write(JSON.stringify({
+                error: true,
+                error_object: error
+            }));
+            res.end();
+        }
+        else {
+            res.write(JSON.stringify(result));
+            res.end();
+        }
+    });
+});
 
 app.get('/cat', function(req, res){
     var sql = "SELECT * FROM categorias";

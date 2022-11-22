@@ -82,4 +82,7 @@ INSERT INTO productos(prod_nombre, prod_cantidad, prod_tipo)
 	VALUES ('Perfume 17', '101', 'Esencia ');
 INSERT INTO usuarios(usu_nombre, usu_ape_pat, usu_ape_mat, usu_password, usu_puesto) 
 	VALUES ('Gerente01', 'Gonzalez', 'Perez', 'password', 'Gerente');
-INSERT INTO privilegios()
+INSERT INTO usuarios(usu_nombre, usu_ape_pat, usu_ape_mat, usu_password, usu_puesto) 
+	VALUES ('Almacenista01', 'Pedro', 'Ruiz', 'password01', 'Almacenista');
+INSERT INTO usuarios(usu_nombre, usu_ape_pat, usu_ape_mat, usu_password, usu_puesto) 
+	VALUES ('Desempleado', 'Pedro', 'Ruiz', 'password01', 'Desempleado');

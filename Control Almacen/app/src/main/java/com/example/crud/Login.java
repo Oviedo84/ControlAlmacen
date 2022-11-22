@@ -17,8 +17,14 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +33,7 @@ public class Login extends AppCompatActivity {
     private Button button;
     private EditText Username;
     private EditText Password;
-    private int privilege = 0;
+    private String privilege = "0";
     private ip object = new ip();
     private String PCip = object.getLocalip();
     private String users = PCip + "/auth";
@@ -57,9 +63,17 @@ public class Login extends AppCompatActivity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                if(response.equals("1")) {
-                                    privilege = Integer.parseInt(response);
+                                if(response.equals("[{\"usu_puesto\":\"Gerente\"}]")) {
+                                    privilege = "1";
                                     mainPage(privilege);
+                                }
+                                else if(response.equals("[{\"usu_puesto\":\"Almacenista\"}]")) {
+                                    privilege = "2";
+                                    mainPage(privilege);
+                                }
+                                else if(response.equals("[{\"usu_puesto\":\"Desempleado\"}]")) {
+                                    Toast.makeText(getApplicationContext(), "User not Found", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
                                 }
                                 else {
                                     Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
@@ -86,10 +100,9 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void mainPage(int privileges){
-        if(privileges == 1){
-            Intent intent = new Intent(this, Main.class);
-            startActivity(intent);
-        }
+    private void mainPage(String privileges){
+        Intent intent = new Intent(this, Main.class);
+        intent.putExtra("privilege", privileges);
+        startActivity(intent);
     }
 }

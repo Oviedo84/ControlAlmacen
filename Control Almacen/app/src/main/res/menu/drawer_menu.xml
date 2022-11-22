@@ -6,12 +6,8 @@
             android:title="Productos"
             android:checked="true"/>
         <item
-            android:id="@+id/nav_categoria"
-            android:title="Categorias"
-            android:checked="true"/>
-        <item
-            android:id="@+id/nav_compras"
-            android:title="Compras"
+            android:id="@+id/nav_registros"
+            android:title="Registros"
             android:checked="true"/>
         <item
             android:id="@+id/nav_usuarios"
