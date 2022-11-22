@@ -202,17 +202,17 @@ public class ListProducts extends Fragment{
     }
     
     public void filterList(String text){
-        List<GetProducts> aux = new ArrayList<>();
+        List<GetProducts> newaux = new ArrayList<>();
         for(GetProducts x : mProducto){
             if(x.getNombre().toLowerCase().contains(text.toLowerCase())){
-                aux.add(x);
+                newaux.add(x);
             }
         }
-        if(aux.isEmpty()){
+        if(newaux.isEmpty()){
             Toast.makeText(getContext(), "No hay coincidencias", Toast.LENGTH_SHORT).show();
         }
         else{
-            adapterProducts.setFilteredProducts(aux);
+            adapterProducts.setFilteredProducts(newaux);
             recyclerView.setAdapter(adapterProducts);
             adapterProducts.notifyDataSetChanged();
         }

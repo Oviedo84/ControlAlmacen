@@ -43,7 +43,6 @@ import java.util.List;
 import java.util.Map;
 
 public class EditProducts extends Fragment {
-
     private String EditProd;
     private ip object = new ip();
     private String PCip = object.getLocalip();

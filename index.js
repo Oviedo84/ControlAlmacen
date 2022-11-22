@@ -147,14 +147,10 @@ app.get('/cat', function(req, res){
 
 app.post('/insertProd', function(req, res, next){
     var nombre = req.body.nombre;
-    var descripcion = req.body.descripcion;
-    var p_venta = req.body.p_venta;
-    var p_compra = req.body.p_compra;
-    var fecha = req.body.fecha;
-    var activo = req.body.activo;
+    var tipo = req.body.tipo;
     var cantidad = req.body.cantidad;
     
-    var sql = `INSERT INTO productos(nombre, descripcion, p_venta, p_compra, fecha, activo, cantidad) VALUES ("${nombre}", "${descripcion}", ${p_venta}, ${p_compra}, "${fecha}", "${activo}", ${cantidad})`;
+    var sql = `INSERT INTO productos(prod_nombre, prod_tipo, prod_cantidad) VALUES ("${nombre}", "${tipo}", ${cantidad})`;
     db.query(sql, function(error, result){
         if (error){
             res.write(JSON.stringify({
