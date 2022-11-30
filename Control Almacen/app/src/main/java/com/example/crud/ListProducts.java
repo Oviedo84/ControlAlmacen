@@ -38,13 +38,15 @@ public class ListProducts extends Fragment{
     private ip object = new ip();
     private String PCip = object.getLocalip();
     private String products;
+    private int ShowingSeachView = 0;
     RequestQueue requestQueue;
     RecyclerView recyclerView;
     GetProducts getProducts;
     List<GetProducts> mProducto;
+    List<GetProducts> mProductoFiltered;
     AdapterProducts adapterProducts;
     SearchView searchView;
-    View v;
+    View viewRef;
     AdapterProducts.RecyclerViewClickListener listener;
 
     @Nullable
@@ -53,7 +55,7 @@ public class ListProducts extends Fragment{
         View view = inflater.inflate(R.layout.fragment_list_products, container, false);
         Bundle bundle = this.getArguments();
         i = Integer.parseInt(bundle.getString("data"));
-        v = view;
+        viewRef = view;
         return view;
     }
 
@@ -134,13 +136,17 @@ public class ListProducts extends Fragment{
                 }
         );
         requestQueue.add(arrayRequest);
+
     }
 
     void setOnClickListener() {
         listener = new AdapterProducts.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
-                GetProducts aux = mProducto.get(position);
+                if(ShowingSeachView == 1)
+                    ShowSearchViewGone();
+                GetProducts aux = new GetProducts();
+                aux = mProducto.get(position);
                 Bundle bundle = new Bundle();
                 bundle.putString("id", aux.getProducto_id());
                 bundle.putString("nombre", aux.getNombre());
@@ -167,7 +173,8 @@ public class ListProducts extends Fragment{
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int pos = viewHolder.getBindingAdapterPosition();
-                GetProducts a = mProducto.get(pos);
+                GetProducts a = new GetProducts();
+                a = mProducto.get(pos);
                 String id = a.getProducto_id();
                 eliminarProducto(id);
                 mProducto.remove(viewHolder.getBindingAdapterPosition());
@@ -198,23 +205,29 @@ public class ListProducts extends Fragment{
     }
     
     public void ShowSearchView(){
-        searchView.setVisibility(v.VISIBLE);
+        searchView.setVisibility(viewRef.VISIBLE);
+        ShowingSeachView = 1;
+    }
+
+    public void ShowSearchViewGone(){
+        searchView.setVisibility(viewRef.VISIBLE);
+        ShowingSeachView = 0;
     }
     
     public void filterList(String text){
-        List<GetProducts> newaux = new ArrayList<>();
-        for(GetProducts x : mProducto){
-            if(x.getNombre().toLowerCase().contains(text.toLowerCase())){
-                newaux.add(x);
+        if(ShowingSeachView == 1) {
+            List<GetProducts> newaux = new ArrayList<>();
+            for (GetProducts x : mProducto) {
+                if (x.getNombre().toLowerCase().contains(text.toLowerCase())) {
+                    newaux.add(x);
+                }
             }
-        }
-        if(newaux.isEmpty()){
-            Toast.makeText(getContext(), "No hay coincidencias", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            adapterProducts.setFilteredProducts(newaux);
-            recyclerView.setAdapter(adapterProducts);
-            adapterProducts.notifyDataSetChanged();
+            if (!newaux.isEmpty()) {
+                adapterProducts.setFilteredProducts(newaux);
+                recyclerView.setAdapter(adapterProducts);
+                adapterProducts.notifyDataSetChanged();
+                mProducto = newaux;
+            }
         }
     }
 }
