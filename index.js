@@ -128,23 +128,6 @@ app.get('/listProdbyNameAsc', function(req, res){
     });
 });
 
-app.get('/cat', function(req, res){
-    var sql = "SELECT * FROM categorias";
-    db.query(sql, function(error, result){
-        if (error){
-            res.write(JSON.stringify({
-                error: true,
-                error_object: error
-            }));
-            res.end();
-        }
-        else {
-            res.write(JSON.stringify(result));
-            res.end();
-        }
-    });
-});
-
 app.post('/insertProd', function(req, res, next){
     var nombre = req.body.nombre;
     var tipo = req.body.tipo;
@@ -205,64 +188,6 @@ app.put('/editProd/:id', function(req, res, next){
         }
     });
 });
-
-app.get('/listComp', function(req, res){
-    var sql = "SELECT * FROM compras";
-    db.query(sql, function(error, result){
-        if (error){
-            res.write(JSON.stringify({
-                error: true,
-                error_object: error
-            }));
-            res.end();
-        }
-        else {
-            res.write(JSON.stringify(result));
-            res.end();
-        }
-    });
-});
-
-app.post('/insertComp', function(req, res, next){
-    var producto_id = req.body.producto_id;
-    var usuario_id = req.body.usuario_id;
-    var fecha = req.body.fecha;
-    var cantidad = req.body.cantidad;
-    var proveedor = req.body.proveedor;
-    
-    var sql = `INSERT INTO compras(producto_id, usuario_id, fecha, cantidad, proveedor) VALUES ("${producto_id}", "${usuario_id}", "${fecha}", "${cantidad}", "${proveedor}")`;
-    db.query(sql, function(error, result){
-        if (error){
-            res.write(JSON.stringify({
-                error: true,
-                error_object: error
-            }));
-            res.end();
-        }
-        else {
-            res.write(JSON.stringify(result));
-            res.end();
-        }
-    });
-});
-
-app.get('/listUsers', function(req, res){
-    var sql = "SELECT * FROM usuarios";
-    db.query(sql, function(error, result){
-        if (error){
-            res.write(JSON.stringify({
-                error: true,
-                error_object: error
-            }));
-            res.end();
-        }
-        else {
-            res.write(JSON.stringify(result));
-            res.end();
-        }
-    });
-});
-
 
 app.listen(8080, () => {
     console.log("Servidor NodeJs @ 8080");
