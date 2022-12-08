@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/usuario"
-            android:layout_width="250dp"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
@@ -26,7 +26,7 @@
 
         <TextView
             android:id="@+id/nivel_id"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="16dp"

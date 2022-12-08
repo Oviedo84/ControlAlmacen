@@ -33,7 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListUsers extends Fragment {
-    private String users = "http://192.168.0.8:8080/listUsers";
+    private ip object = new ip();
+    private String PCip = object.getLocalip();
+    private String users = PCip + "/listUsers";
     RequestQueue requestQueue;
     RecyclerView recyclerView;
     GetUsers getUsers;
@@ -72,11 +74,13 @@ public class ListUsers extends Fragment {
                         for (int i = 0; i < size; i++) {
                             try {
                                 JSONObject jsonObject = new JSONObject(response.get(i).toString());
-                                String usuario_id = jsonObject.getString("usuario_id");
-                                String nivel_id = jsonObject.getString("nivel_id");
-                                String password = jsonObject.getString("password");
-                                String usuario = jsonObject.getString("usuario");
-                                getUsers = new GetUsers(usuario_id, nivel_id, password, usuario);
+                                String usuario_id = jsonObject.getString("usu_id");
+                                String puesto = jsonObject.getString("usu_puesto");
+                                String password = jsonObject.getString("usu_password");
+                                String nombre = jsonObject.getString("usu_nombre");
+                                String apellidoPaterno = jsonObject.getString("usu_ape_pat");
+                                String apellidoMaterno = jsonObject.getString("usu_ape_mat");
+                                getUsers = new GetUsers(usuario_id, puesto, password, nombre, apellidoPaterno, apellidoPaterno);
                                 uUsers.add(getUsers);
                                 setOnClickListener();
                                 recyclerView.setAdapter(adapter);
@@ -104,9 +108,11 @@ public class ListUsers extends Fragment {
                 GetUsers aux = uUsers.get(position);
                 Bundle bundle = new Bundle();
                 bundle.putString("usuario_id", aux.getUsuario_id());
-                bundle.putString("nivel_id", aux.getNivel_id());
+                bundle.putString("nivel_id", aux.getPuesto());
                 bundle.putString("password", aux.getPassword());
-                bundle.putString("usuario", aux.getUsuario());
+                bundle.putString("usuario", aux.getNombre());
+                bundle.putString("apellidoP", aux.getApellidoPaterno());
+                bundle.putString("apellidoM", aux.getApellidoMaterno());
                 Fragment main = new EditUsers();
                 main.setArguments(bundle);
                 FragmentManager fragmentManager = getParentFragmentManager();
@@ -129,7 +135,7 @@ public class ListUsers extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int pos = viewHolder.getBindingAdapterPosition();
                 GetUsers u = uUsers.get(pos);
-                String id = u.getNivel_id();
+                String id = u.getUsuario_id();
                 eliminarUsuario(id);
                 uUsers.remove(viewHolder.getBindingAdapterPosition());
                 recyclerView.setAdapter(adapter);
@@ -139,7 +145,7 @@ public class ListUsers extends Fragment {
     }
 
     public void eliminarUsuario(String id) {
-        String deleteUser = "http://192.168.0.8:8080/deleteProduct/" + id;
+        String deleteUser = PCip + "/deleteProduct/" + id;
         StringRequest stringRequest = new StringRequest(
                 Request.Method.DELETE,
                 deleteUser,

@@ -149,7 +149,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         switch (item.getItemId()){
             case R.id.nav_productos:
                 numActivity = 1;
-                fragmentTransaction.replace(R.id.load_fragment, new ListProducts(), "ListProducts").commit();
+                Bundle bundleforFragment = new Bundle();
+                bundleforFragment.putString("data", "1");
+                Fragment listprod = new ListProducts();
+                listprod.setArguments(bundleforFragment);
+                fragmentTransaction.replace(R.id.load_fragment, listprod, "ListProducts").commit();
                 mDrawerLayout.close();
                 floatingActionButton.show();
                 break;

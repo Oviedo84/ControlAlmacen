@@ -14,7 +14,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="32dp"
         android:fontFamily="@font/work_sans"
-        android:text="Categorias"
+        android:text="Registros"
         android:gravity="center_horizontal"
         android:textSize="34sp" />
 
@@ -30,7 +30,7 @@
             android:layout_marginRight="8dp"
             android:gravity="center"
             android:fontFamily="@font/work_sans"
-            android:text="Nombre"
+            android:text="ProdID"
             android:textSize="18dp" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:gravity="center"
             android:layout_marginRight="16dp"
             android:fontFamily="@font/work_sans"
-            android:text="Descripción"
+            android:text="Fecha Ingreso"
             android:textSize="18dp"/>
     </RelativeLayout>
 

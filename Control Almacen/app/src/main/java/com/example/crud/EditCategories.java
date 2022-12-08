@@ -39,7 +39,6 @@ public class EditCategories extends Fragment {
     private Button insertButton;
     private EditText insertNombre, insertDescripcion;
     RequestQueue requestQueue;
-    List<GetCompras> getComprasList;
     ArrayAdapter<String> adapterItems;
     String categoria_id, nombre, descripcion;
 
@@ -58,8 +57,6 @@ public class EditCategories extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         requestQueue = Volley.newRequestQueue(getContext());
-
-
 
         // Insertar Categorias
         insertNombre = (EditText) view.findViewById(R.id.nombre);

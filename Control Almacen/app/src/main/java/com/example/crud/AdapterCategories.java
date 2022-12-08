@@ -36,8 +36,8 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         GetCategories categoria = categorias.get(position);
-        holder.nombre.setText(categoria.getNombre());
-        holder.descripcion.setText(categoria.getDescripcion());
+        holder.nombre.setText(categoria.getRegisterId());
+        holder.descripcion.setText(categoria.getFechaModificacion());
 
     }
 

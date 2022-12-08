@@ -38,8 +38,8 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         GetUsers usuario = usuarios.get(position); //Cambiar a los atributos
-        holder.nivel.setText(usuario.getNivel_id());
-        holder.usuario.setText(usuario.getUsuario());
+        holder.nivel.setText(usuario.getPuesto());
+        holder.usuario.setText(usuario.getNombre());
     }
 
     @Override

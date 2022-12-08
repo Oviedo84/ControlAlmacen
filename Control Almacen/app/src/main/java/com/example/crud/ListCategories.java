@@ -33,7 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListCategories extends Fragment {
-    private String categories = "http://192.168.0.8:8080/cat";
+    private ip object = new ip();
+    private String PCip = object.getLocalip();
+    private String categories = PCip + "/listReg";
     RequestQueue requestQueue;
     RecyclerView recyclerView;
     GetCategories getCategories;
@@ -73,10 +75,13 @@ public class ListCategories extends Fragment {
                         for (int i = 0; i < size; i++) {
                             try {
                                 JSONObject jsonObject = new JSONObject(response.get(i).toString());
-                                String categoria_id = jsonObject.getString("categoria_id");
-                                String nombre = jsonObject.getString("nombre");
-                                String descripcion = jsonObject.getString("descripcion");
-                                getCategories = new GetCategories(categoria_id, nombre, descripcion);
+                                String reg_id = jsonObject.getString("reg_id");
+                                String fecha_ingreso = jsonObject.getString("reg_fecha_ingreso");
+                                String fecha_egreso = jsonObject.getString("reg_fecha_egreso");
+                                String fecha_modificacion = jsonObject.getString("reg_fecha_modificacion");
+                                String prod_id = jsonObject.getString("reg_prod_id");
+                                String usu_id = jsonObject.getString("reg_usu_id");
+                                getCategories = new GetCategories(reg_id, fecha_ingreso, fecha_egreso, fecha_modificacion, prod_id, usu_id);
                                 cCategoria.add(getCategories);
                                 setOnClickListener();
                                 recyclerView.setAdapter(adapterCategories);
@@ -103,9 +108,9 @@ public class ListCategories extends Fragment {
             public void onClick(View v, int position) {
                 GetCategories aux = cCategoria.get(position);
                 Bundle bundle = new Bundle();
-                bundle.putString("categoria_id", aux.getCategoria_id());
-                bundle.putString("nombre", aux.getNombre());
-                bundle.putString("descripcion", aux.getDescripcion());
+                bundle.putString("categoria_id", aux.getProdId());
+                bundle.putString("nombre", aux.getFechaModificacion());
+                bundle.putString("descripcion", aux.getRegisterId());
                 Fragment main = new EditCategories();
                 main.setArguments(bundle);
                 FragmentManager fragmentManager = getParentFragmentManager();
@@ -128,7 +133,7 @@ public class ListCategories extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int pos = viewHolder.getBindingAdapterPosition();
                 GetCategories c = cCategoria.get(pos);
-                String id = c.getCategoria_id();
+                String id = c.getRegisterId();
                 eliminarCategoria(id);
                 cCategoria.remove(viewHolder.getBindingAdapterPosition());
                 recyclerView.setAdapter(adapterCategories);
