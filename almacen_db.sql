@@ -135,11 +135,11 @@ INSERT INTO registros(reg_fecha_ingreso,reg_prod_id,reg_usu_id)
 		VALUES ('2022-12-04','1','2'),
 				('2019-11-03','2','3'),
                 ('2019-10-17','3','4'),
-                ('2019-12-15','7','5'),
+                ('2019-12-15','7','5');
 INSERT INTO registros(reg_fecha_egreso,reg_prod_id,reg_usu_id)                
 		VALUES ('2021-06-15','9','6'),
                 ('2021-08-23','6','7'),
-                ('2022-01-09','4','8'),
+                ('2022-01-09','4','8');
 INSERT INTO registros(reg_fecha_modificacion,reg_prod_id,reg_usu_id)                
 		VALUES ('2022-01-15','2','8'),
                 ('2021-06-23','1','7'),
